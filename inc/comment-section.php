@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Callback function for the `comment_form_fields` filter hook
+ * Customize WordPress Comment Form by removing and redesigning fields
  *
  * @param Array $fields Fields.
  * @return Array        Fields modified.
  */
-function comment_form_filter(array $fields): array
+add_filter('comment_form_fields', function (array $fields): array
 {
     // Unset fields from displaying by default
     unset($fields['comment']);
@@ -21,31 +21,29 @@ function comment_form_filter(array $fields): array
         . '<label for="wp-comment-cookies-consent" class="form-check-label">Save my name and email to my browser for the next time I comment here.</label></div>';
 
     return $fields;
-}
-add_filter('comment_form_fields', 'comment_form_filter');
+});
 
 /**
- * Callback function for the `comment_form_field_comment` filter hook
+ * Redesign the checkbox in the comments form to match the theme
  *
  * @param String $field  Field.
  * @return String        Field modified.
  */
-function add_form_check_inline_class( String $field ): string {
+add_filter( 'comment_form_field_comment', function ( String $field ): string {
     if (str_contains($field, 'wp-comment-cookies-consent')) {
         // Wrap the checkbox and label in a div with class 'form-check-inline'
         $field = '<div class="form-check-inline">' . $field . '</div>';
     }
     return $field;
-}
-add_filter( 'comment_form_field_comment', 'add_form_check_inline_class' );
+});
 
 /**
- * Callback function for the `comment_form_defaults` filter hook
+ * Redesign the Comment form fields to match the theme
  *
  * @param Array $defaults Defaults.
  * @return Array          Defaults modified.
  */
-function modify_comment_form_defaults(array $defaults ): array
+add_filter( 'comment_form_defaults', function (array $defaults ): array
 {
     // If user is logged in, remove logged_in_as text
     if ( is_user_logged_in() ) {
@@ -59,5 +57,4 @@ function modify_comment_form_defaults(array $defaults ): array
     $defaults['hidden_fields']['comment_post_ID'] = '<input id="comment_post_ID" name="comment_post_ID" type="hidden" value="' . get_the_ID() . '" />';
     $defaults['hidden_fields']['comment_parent'] = '<input id="comment_parent" name="comment_parent" type="hidden" value="0" />';
     return $defaults;
-}
-add_filter( 'comment_form_defaults', 'modify_comment_form_defaults' );
+});

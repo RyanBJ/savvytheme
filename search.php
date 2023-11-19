@@ -22,7 +22,7 @@ get_header();
 
                 <div id="search-calltoaction">
                 <?php
-                get_call_to_action(
+                call_to_action(
                     "No results for \"" . get_search_query() . "\"",
                     "We couldn't find any posts containing this term. Try searching for something else.",
                     null,

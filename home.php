@@ -25,28 +25,32 @@ get_header();
                 $featured_post_image = wp_get_attachment_image_src(get_post_thumbnail_id($featured_post_id), 'single-post-thumbnail');
                 ?>
 
-                <div class="col-lg-2 position-relative" id="featured-post" style="background: url(<?php echo $featured_post_image[0]; ?>)center / cover no-repeat;">
+                <div id="featured-post" class="col-lg-2 position-relative" style="background: url(<?php echo $featured_post_image[0]; ?>)center / cover no-repeat;">
 
                     <a class="stretched-link link-unstyled w-100" href="<?php echo the_permalink($featured_post_id); ?>">
                         <div>
-                            <p><?php echo $featured_post->post_title ?></p>
+                            <p>
+                                <?php echo (strlen($featured_post->post_title) > 50
+                                    ? substr($featured_post->post_title, 0, 50) . "..."
+                                    : $featured_post->post_title)  ?>
+                            </p>
                         </div>
                     </a>
                 </div>
 
                 <?php
                 // If the featured video checkbox is unchecked
-                if(get_theme_mod('setting_st_featured_hasvideo') == false) :
+                if( ! get_theme_mod( 'setting_st_featured_hasvideo' ) ) :
                 ?>
 
-                    <div class="col-lg-6" id="featured-calltoaction">
-                        <?php get_call_to_action(
+                    <div id="featured-calltoaction" class="calltoaction col-lg-6">
+                        <?php call_to_action(
                                 get_theme_mod('setting_st_featured_title', "Title Text"),
                                 get_theme_mod('setting_st_featured_lead', "Leading Text"),
                                 get_theme_mod('setting_st_featured_body', "Body Text"),
                                 get_theme_mod('setting_st_featured_buttonlink', get_home_url()),
                                 get_theme_mod('setting_st_featured_buttonvalue', "Click Me"),
-                                get_theme_mod('setting_st_featured_hascat', true)
+                                get_theme_mod('setting_st_featured_hasfox', true)
                         ); ?>
                     </div>
 
@@ -55,7 +59,7 @@ get_header();
                 else :
                 ?>
 
-                <div class="col-lg-6" id="featured-video">
+                <div id="featured-video" class="col-lg-6">
 
                     <?php if(!empty(get_theme_mod('setting_st_featured_video')))
                         echo get_theme_mod('setting_st_featured_video'); ?>
@@ -74,17 +78,17 @@ get_header();
 
                 <?php
                 // If the featured video checkbox is unchecked
-                if(get_theme_mod('setting_st_featured_hasvideo') == false) :
+                if( ! get_theme_mod( 'setting_st_featured_hasvideo' ) ) :
                     ?>
 
-                    <div class="col-lg-8" id="featured-calltoaction">
-                        <?php get_call_to_action(
+                    <div id="featured-calltoaction"  class="calltoaction col-lg-8">
+                        <?php call_to_action(
                             get_theme_mod('setting_st_featured_title', "Title Text"),
                             get_theme_mod('setting_st_featured_lead', "Leading Text"),
                             get_theme_mod('setting_st_featured_body', "Body Text"),
                             get_theme_mod('setting_st_featured_buttonlink', get_home_url()),
                             get_theme_mod('setting_st_featured_buttonvalue', "Click Me"),
-                            get_theme_mod('setting_st_featured_hascat', true)
+                            get_theme_mod('setting_st_featured_hasfox', true)
                         ); ?>
                     </div>
 
@@ -93,7 +97,7 @@ get_header();
                 else :
                     ?>
 
-                    <div class="col-lg-8" id="featured-video">
+                    <div id="featured-video" class="col-lg-8">
 
                         <?php if(!empty(get_theme_mod('setting_st_featured_video')))
                             echo get_theme_mod('setting_st_featured_video'); ?>
@@ -152,7 +156,9 @@ get_header();
                         <?php endif; ?>
                     </a>
                     <a href="<?php the_permalink(); ?>">
-                        <?php the_title();?>
+                        <?php echo (strlen(the_title('', '', false)) > 60
+	                        ? substr(the_title('', '', false), 0, 60 ) . '...'
+	                        : the_title('', '', false)); ?>
                     </a>
                 </article>
             <?php $post_counter++; ?>
@@ -173,4 +179,3 @@ get_header();
 
 </body>
 
-</html>
