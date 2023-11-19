@@ -5,8 +5,7 @@
  *
  * Generate a navigation menu depending on the nav location
  */
-function get_nav_menu()
-{
+function get_nav_menu(): void {
     ?>
     <nav class="navbar navbar-expand-lg" id="site-navbar">
         <div class="container-fluid">

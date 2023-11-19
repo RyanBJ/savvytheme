@@ -7,13 +7,13 @@
 
     <?php
 
-    function enqueue_all_scripts() {
+    function enqueue_all_scripts(): void {
         // Bootstrap CSS
-        wp_register_style( 'bootstrap', get_template_directory_uri().'/assets/bootstrap/css/bootstrap.min.css', false, null, 'all' );
+        wp_register_style( 'bootstrap', get_template_directory_uri().'/assets/bootstrap/css/bootstrap.min.css', false, null );
         wp_enqueue_style( 'bootstrap' );
 
         // Fontawesome
-        wp_register_style( 'fontawesome', get_template_directory_uri().'/assets/fonts/fontawesome-all.min.css', false, null, 'all' );
+        wp_register_style( 'fontawesome', get_template_directory_uri().'/assets/fonts/fontawesome-all.min.css', false, null );
         wp_script_add_data( 'fontawesome', 'crossorigin', 'anonymous');
         wp_enqueue_style( 'fontawesome');
 

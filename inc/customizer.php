@@ -3,7 +3,7 @@
 /**
  * Add all panels, sections, settings and controls to the Customizer
  */
-function register_customize_sections ( $wp_customize ) {
+function register_customize_sections ( $wp_customize ): void {
 
     /****************************************
      * Home Page
@@ -100,8 +100,8 @@ function register_customize_sections ( $wp_customize ) {
     ));
     $wp_customize->add_control(new WP_Customize_Control( $wp_customize, 'control_st_featured_buttonlink', array(
         'label'		    => __('Home Page Button Target'),
-        'description'   => esc_html__('The page that the call-to-action button will go to'),
-        'type' 		    => 'dropdown-pages',
+        'description'   => esc_html__('The address of the page the button will go to'),
+        'type' 		    => 'text',
         'settings'	    => 'setting_st_featured_buttonlink',
         'section'	    => 'section_st_featured',
     )));
@@ -119,13 +119,13 @@ function register_customize_sections ( $wp_customize ) {
     )));
 
     // Has Savvy Cat
-    $wp_customize->add_setting('setting_st_featured_hascat', array(
+    $wp_customize->add_setting('setting_st_featured_hasfox', array(
         'transport'     => 'refresh'
     ));
-    $wp_customize->add_control(new WP_Customize_Control( $wp_customize, 'control_st_featured_hascat', array(
-        'label'		    => __('Show a Savvy Cat in the background'),
+    $wp_customize->add_control(new WP_Customize_Control( $wp_customize, 'control_st_featured_hasfox', array(
+        'label'		    => __('Show a Savvy Fox in the background'),
         'type' 		    => 'checkbox',
-        'settings'	    => 'setting_st_featured_hascat',
+        'settings'	    => 'setting_st_featured_hasfox',
         'section'	    => 'section_st_featured',
     )));
 

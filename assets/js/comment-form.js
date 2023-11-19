@@ -47,9 +47,6 @@ if (window.innerWidth <= 576) {
     commentList.appendChild(joinButtonContainer);
 }
 
-// Overwrite the replyTitle
-replyTitle.innerText = 'Join the discussion!';
-
 // Initialize Cancel Button Styles
 resetCancelButtonStyles();
 

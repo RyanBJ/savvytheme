@@ -1,0 +1,37 @@
+/*
+Savvy Theme Rating Block Stylesheet
+*/
+
+.editor-styles-wrapper {
+    --st-orange: #f79420;
+}
+
+.rating-block-editor .rating-block-editor-content {
+    border: 2px solid var(--st-orange);
+    border-radius: 1rem;
+    padding: 1rem;
+    max-width: 30rem;
+    margin: auto;
+}
+
+.rating-block-editor .wp-block {
+    margin: 0;
+}
+
+.rating-block-editor p {
+    margin: 0;
+    padding: 0.25rem;
+}
+
+.rating-block-editor .row {
+    display: flex;
+    align-items: center;
+}
+
+.rating-block-editor .col-8 {
+    flex-basis: 60%;
+}
+
+.rating-block-editor .col-4 {
+    flex-basis: 40%;
+}

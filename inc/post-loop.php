@@ -7,8 +7,7 @@
  *
  * @param bool $pagination Does the post list require a pagination control
  */
-function get_post_loop(bool $pagination = true)
-{
+function get_post_loop(bool $pagination = true): void {
     ?>
     <?php if (have_posts()) : ?>
 
@@ -47,23 +46,41 @@ function get_post_loop(bool $pagination = true)
                     <?php endif; ?>
 
                     <a class="link-unstyled p-0" href="<?php the_permalink(); ?>">
-                        <h4 class="article-title"><?php the_title(); ?></h4>
+                        <h4 class="article-title"><?php echo (strlen(the_title('', '', false)) > 100
+                                ? substr(the_title('', '', false), 0, 100 ) . '...'
+                                : the_title('', '', false)); ?></h4>
                     </a>
 
-                    <p class="article-date text-muted"><?php the_date(); ?>
-                        <?php if (has_category()) : ?>
-                            <?php echo " -" ?>
-                            <?php $categories = get_the_category(); ?>
-                            <?php foreach($categories as $category) : ?>
-                                <a href="<?php echo get_category_link($category->cat_ID); ?>">
-                                    <span class="text-muted"> <u><?php echo $category->cat_name; ?></u></span>
-                                </a>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </p>
+                    <span class="article-date text-muted"><?php the_date(); ?></span>
+                    <?php if (has_category()) : ?>
+                        <span> -</span>
+                        <?php $categories = get_the_category(); ?>
+
+                        <ul class="list-inline d-inline">
+
+                        <?php foreach($categories as $category) : ?>
+                            <li class="list-inline-item article-category">
+                                <a href="<?php echo get_category_link($category->cat_ID); ?>"><?php echo $category->cat_name; ?></a>
+                            </li>
+                        <?php endforeach; ?>
+
+                        </ul>
+
+                    <?php endif; ?>
+
 
                     <p class="article-description"><?php echo substr(strip_tags(do_shortcode($content)), 0, 300) . '...'; ?></p>
-                    <span class="article-author" href=""><i class="far fa-user-circle"></i> <?php the_author(); ?></span>
+                    <span class="article-author">
+                        <?php
+                        $user_id = get_the_author_meta('ID');
+                        if (get_option('show_avatars') && get_avatar_data($user_id)['found_avatar']) {
+                            echo '<i>' . get_avatar($user_id, 16, '', '', array('class' => 'rounded-circle')) . '</i>';
+                        } else {
+                            echo '<i class="far fa-user-circle"></i>';
+                        }
+                        the_author_posts_link();
+                        ?>
+                    </span>
 
                     <?php if (has_tag()) : ?>
 
@@ -71,11 +88,9 @@ function get_post_loop(bool $pagination = true)
                         <ul class="list-inline d-inline">
 
                             <?php foreach($tags as $tag) : ?>
-
                                 <li class="list-inline-item article-tag">
-                                    <a href="<?php echo get_tag_link($tag) ?>"><?php echo $tag->name ?></a>
+                                    <a href="<?php echo get_tag_link($tag); ?>"><?php echo $tag->name; ?></a>
                                 </li>
-
                             <?php endforeach; ?>
 
                         </ul>
@@ -97,7 +112,7 @@ function get_post_loop(bool $pagination = true)
 }
 
 // Disable the "sticky" part of sticky posts so that they do not stay at the top of the post loop
-function ignore_sticky_posts_on_home($query) {
+function ignore_sticky_posts_on_home($query): void {
     if (is_home() && $query->is_main_query()) {
         $query->set('ignore_sticky_posts', true);
     }
@@ -111,7 +126,7 @@ add_action('pre_get_posts', 'ignore_sticky_posts_on_home');
  *
  * @param WP_Query|null $wp_query The post query returned by WordPress
  */
-function get_pagination(\WP_Query $wp_query = null) {
+function get_pagination(\WP_Query $wp_query = null): void {
     if ( null === $wp_query ) {
         global $wp_query;
     }

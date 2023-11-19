@@ -6,6 +6,7 @@ if ( post_password_required() ) {
 	return;
 } ?>
 
+
 <?php if (have_comments()) : ?>
 
     <h1 class="display-2">Comments</h1>
@@ -23,8 +24,16 @@ if ( post_password_required() ) {
         }
 
         if ( !comments_open() ) : ?>
-            <p class="lead"><?php _e('Comments are closed.', 'savvytheme'); ?></p>
+            <div class="comment-respond comment-closed">
+                <p><?php _e('Comments are closed.', 'savvytheme') ?></p>
+            </div>
         <?php endif; ?>
     </ol>
 
+<?php else : ?>
+    <?php
+	if ( comments_open() && 'asc' === strtolower( get_option( 'comment_order', 'asc' ) ) ) {
+		comment_form(array('title_reply' => 'Leave a reply!', 'comment_notes_before' => ''));
+	}
+    ?>
 <?php endif; ?>
