@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: savvy_db
+    restart: no
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: savvy_user
+      MYSQL_PASSWORD: savvy_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    container_name: savvy_wordpress
+    restart: no
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: savvy_user
+      WORDPRESS_DB_PASSWORD: savvy_password
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      # This tells Docker to mount your active directory right into the theme folder
+      - .:/var/www/html/wp-content/themes/savvytheme
+
+volumes:
+  db_data:
